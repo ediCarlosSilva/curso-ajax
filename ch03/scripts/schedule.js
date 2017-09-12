@@ -11,16 +11,19 @@ function initPage() {
         currentTab.onclick = showTab;
     }
 
-    var images = document.getElementById("schedulePane").getElementsByTagName("img");
+    var buttons = document.getElementById("navigation").getElementsByTagName("a");
 
-    for (var i = 0; i < images.length; i++) {
-        var currentImage = images[i];
+    for (var i = 0; i < buttons.length; i++) {
+        var currentBtn = buttons[i];
 
-        currentImage.onmouseover = showHint;
+        currentBtn.onmouseover = showHint;
 
-        currentImage.onmouseout = hideHint;
+        currentBtn.onmouseout = hideHint;
 
-        currentImage.onclick = showTab;
+        currentBtn.onclick = showTab;
+
+        currentBtn.onmouseover = buttonOver;
+        currentBtn.onmouseout = buttonOut;
 
     }
 }
@@ -61,6 +64,14 @@ function showTab() {
     //alert("em showTab()");
     var selectedTab = this.title;
 
+    if (selectedTab == "welcome") {
+        welcomePaneShowing = true;
+        document.getElementById("content").innerHTML =
+        "<h3>Clique em uma guia para exibir o programa do curso para a aula</h3>";
+    } else {
+        welcomePaneShowing = false;
+    }
+
     var tabs = document.getElementById("tabs").getElementsByTagName("a");
     for (var i = 0; i < tabs.length; i++) {
         var currentTab = tabs[i];
@@ -70,4 +81,30 @@ function showTab() {
             currentTab.className = 'inactive';
         }
     }
+
+    var request = createRequest();
+    if (request == null) {
+        alert("unable to create request");
+        return;
+    }
+    request.onreadystatechange = showSchedule;
+    request.open("GET", selectedTab + ".html", true);
+    request.send(null);
+}
+
+function showSchedule() {
+    if (request.readyState == 4) {
+        if (request.status == 200) {
+            document.getElementById("content").innerHTML =
+                request.responseText;
+        }
+    }
+}
+
+function buttonOver() {
+    this.className = "active";
+}
+
+function buttonOut() {
+    this.className = "";
 }

@@ -112,3 +112,38 @@ form {
 #tabs a#advanced.inactive {
     background: url("../images/advancedTabInactive.png") no-repeat;
 }
+
+#navigation a {
+    display: block;
+    float: left;
+    height: 0;
+    margin: 0 0 10px 0;
+    overflow: hidden;
+    padding: 140px 0 0 0;
+    width: 155px;
+    z-index: 200;
+}
+
+#navigation a#beginners {
+    background: url("../images/beginnersBtn.png") no-repeat;
+}
+
+#navigation a#beginners.active {
+    background: url("../images/beginnersBtnActive.png") no-repeat;
+}
+
+#navigation a#intermediate {
+    background: url("../images/intermediateBtn.png") no-repeat;
+}
+
+#navigation a#intermediate.active {
+    background: url("../images/intermediateBtnActive.png") no-repeat;
+}
+
+#navigation a#advanced {
+    background: url("../images/advancedBtn.png") no-repeat;
+}
+
+#navigation a#advanced.active {
+    background: url("../images/advancedBtnActive.png") no-repeat;
+}
