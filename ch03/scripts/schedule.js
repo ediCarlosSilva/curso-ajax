@@ -9,6 +9,7 @@ function initPage() {
         currentTab.onmouseover = showHint;
         currentTab.onmouseout = hideHint;
         currentTab.onclick = showTab;
+
     }
 
     var buttons = document.getElementById("navigation").getElementsByTagName("a");
@@ -16,24 +17,35 @@ function initPage() {
     for (var i = 0; i < buttons.length; i++) {
         var currentBtn = buttons[i];
 
-        currentBtn.onmouseover = showHint;
-
-        currentBtn.onmouseout = hideHint;
+        addEventHandler(currentBtn, "mouseover", showHint);
+        addEventHandler(currentBtn, "mouseout", hideHint);
+        addEventHandler(currentBtn, "mouseover", buttonOver);
+        addEventHandler(currentBtn, "mouseout", buttonOut);
 
         currentBtn.onclick = showTab;
 
-        currentBtn.onmouseover = buttonOver;
-        currentBtn.onmouseout = buttonOut;
+        //currentBtn.onmouseover = showHint;
+        //currentBtn.onmouseout = hideHint;
+        //currentBtn.onmouseover = buttonOver;
+        //currentBtn.onmouseout = buttonOut;
+
+        // dom nível 2:
+        // currentBtn.addEventListener("mouseover", showHint, false);
+        // currentBtn.addEventListener("mouseout", hideHint, false);
+        // currentBtn.addEventListener("mouseover", buttonOver, false);
+        // currentBtn.addEventListener("mouseout", buttonOut, false);
 
     }
 }
 
-function showHint() {
-    //alert("em showHint() " + this.title);
+function showHint(e) {
+
     if (!welcomePaneShowing) {
         return;
     }
-    switch (this.title) {
+    var me = getActivatedObject(e);
+
+    switch (me.title) {
         case "beginners":
             var hintText = "Acabou de começar? junte-se a nós!";
             break;
@@ -51,7 +63,7 @@ function showHint() {
     contentPane.innerHTML = "<h3>" + hintText + "</h3>";
 }
 
-function hideHint() {
+function hideHint(e) {
     //alert("em HideHint()");
     if (welcomePaneShowing) {
         var contentPane = document.getElementById("content");
@@ -60,14 +72,16 @@ function hideHint() {
     }
 }
 
-function showTab() {
+function showTab(e) {
     //alert("em showTab()");
-    var selectedTab = this.title;
+    // var selectedTab = this.title;
+    var me = getActivatedObject(e);
+    var selectedTab = me.title;
 
     if (selectedTab == "welcome") {
         welcomePaneShowing = true;
         document.getElementById("content").innerHTML =
-        "<h3>Clique em uma guia para exibir o programa do curso para a aula</h3>";
+            "<h3>Clique em uma guia para exibir o programa do curso para a aula</h3>";
     } else {
         welcomePaneShowing = false;
     }
@@ -101,10 +115,17 @@ function showSchedule() {
     }
 }
 
-function buttonOver() {
-    this.className = "active";
+function buttonOver(e) {
+    //alert("buttonOver() chamada.")
+    // this.className = "active";
+    var me = getActivatedObject(e);
+    me.className = "active";
+
 }
 
-function buttonOut() {
-    this.className = "";
+function buttonOut(e) {
+    //alert("buttonOut() chamada.")
+    // this.className = "";
+    var me = getActivatedObject(e);
+    me.className = "";
 }
