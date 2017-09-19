@@ -10,5 +10,74 @@ function initPage() {
 }
 
 function tileClick() {
-    alert("essa celula foi clicada. " + this.id);
+    //alert("essa celula foi clicada. " + this.id);
+    if (cellIsEmpty(this)) {
+        alert("clique em um bloco numerado.");
+        return;
+    }
+
+    var currentRow = this.id.charAt(4);
+    var currentCol = this.id.charAt(5);
+
+    // Verifica acima
+    if (currentRow > 1) {
+        var testRow = Number(currentRow) - 1;
+        var testCellId = "cell" + testRow + currentCol;
+        var testCell = document.getElementById(testCellId);
+        if (cellIsEmpty(testCell)) {
+            swapTiles(this, testCell);
+            return;
+        }
+    }
+
+    // verifica abaixo
+    if (currentRow < 4) {
+        var testRow = Number(currentRow) + 1;
+        var testCellId = "cell" + testRow + currentCol;
+        var testCell = document.getElementById(testCellId);
+        if (cellIsEmpty(testCell)) {
+            swapTiles(this, testCell);
+            return;
+        }
+    }
+
+    // verificar á esquerda
+    if (currentCol > 1) {
+        var testCol = Number(currentCol) - 1;
+        var testCellId = "cell" + currentRow + testCol;
+        var testCell = document.getElementById(testCellId);
+        if (cellIsEmpty(testCell)) {
+            swapTiles(this, testCell);
+            return;
+        }
+    }
+
+    // Verificar á direita
+    if (currentCol < 4) {
+        var testCol = Number(currentCol) + 1;
+        var testCellId = "cell" + currentRow + testCol;
+        var testCell = document.getElementById(testCellId);
+        if (cellIsEmpty(testCell)) {
+            swapTiles(this, testCell);
+            return;
+        }
+    }
+
+    // A célula clicada está bloqueada
+    alert("Clique em um bloco próximo de uma célula vazia.");
+}
+
+function cellIsEmpty(cell) {
+    var image = cell.firstChild;
+    if (image.alt == "empty")
+        return true;
+    else
+        return false;
+}
+
+function swapTiles(selectedCell, destinationCell) {
+    selectedImage = selectedCell.firstChild;
+    destinationImage = destinationCell.firstChild;
+    selectedCell.appendChild(destinationImage);
+    destinationCell.appendChild(selectedImage);
 }
