@@ -80,4 +80,22 @@ function swapTiles(selectedCell, destinationCell) {
     destinationImage = destinationCell.firstChild;
     selectedCell.appendChild(destinationImage);
     destinationCell.appendChild(selectedImage);
+
+
+}
+
+function puzzleIsComplete() {
+    var tiles = document.getElementById("puzzleGrid").getElementsByTagName("img");
+    var tileOrder = "";
+    for (var i = 0; i < tiles.length; i++) {
+        var num = tiles[i].src.substr(-6, 2);
+
+        if (num != "ty")
+            tileOrder += num;
+    }
+
+    if (tileOrder == "010203040506070809101112131415")
+        return true;
+
+    return false;
 }
