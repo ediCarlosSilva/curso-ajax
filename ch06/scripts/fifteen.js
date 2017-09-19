@@ -69,6 +69,9 @@ function tileClick() {
 
 function cellIsEmpty(cell) {
     var image = cell.firstChild;
+    while (image.nodeName == "#text") {
+        image = image.nextSibling;
+    }
     if (image.alt == "empty")
         return true;
     else
@@ -77,7 +80,15 @@ function cellIsEmpty(cell) {
 
 function swapTiles(selectedCell, destinationCell) {
     selectedImage = selectedCell.firstChild;
+    while (selectedImage.nodeName == "#text") {
+        selectedImage = selectedImage.nextSibling;
+    }
+
     destinationImage = destinationCell.firstChild;
+    while (destinationImage.nodeName == "#text") {
+        destinationImage = destinationImage.nextSibling;
+    }
+
     selectedCell.appendChild(destinationImage);
     destinationCell.appendChild(selectedImage);
 }
