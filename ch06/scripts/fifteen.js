@@ -92,7 +92,9 @@ function swapTiles(selectedCell, destinationCell) {
     selectedCell.appendChild(destinationImage);
     destinationCell.appendChild(selectedImage);
 
-
+    if (puzzleIsComplete()) {
+        document.getElementById("puzzleGrid").className = "win";
+    }
 }
 
 function puzzleIsComplete() {
