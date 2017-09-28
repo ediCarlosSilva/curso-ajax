@@ -41,7 +41,7 @@ function getDetails(itemName) {
         alert("Unable to create request");
         return;
     }
-    var url = "getDetailsXML-updated.php?ImageID=" + escape(itemName);
+    var url = "getDetailsXML.php?ImageID=" + escape(itemName);
     request.open("GET", url, true);
     request.onreadystatechange = displayDetails;
     request.send(null);
@@ -58,30 +58,30 @@ function displayDetails() {
                 detailDiv.removeChild(detailDiv.childNodes[i - 1]);
             }
 
-            // for (var i = 0; i < detailDiv.childNodes.length; i++) {
-            //     detailDiv.removeChild(detailDiv.childNodes[i]);
-            // }
-
-            // Adicionar novos detalhes do item
-            var response = request.responseText;
-            var itemDetails = response.split(',');
-
+            // adicionar novos detalhes do item
+            var responseDoc = request.responseXML;
+            var description = responseDoc.getElementsByTagName('description')[0];
+            var descriptionText = description.firstChild.nodeValue;
             var descriptionP = document.createElement('p');
             descriptionP.appendChild(
-                document.createTextNode("Descrição: " + itemDetails[1])
+                document.createTextNode("Descrição: " + descriptionText)
             );
             detailDiv.appendChild(descriptionP);
+            var price = responseDoc.getElementsByTagName('price')[0];
+            var priceText = price.firstChild.nodeValue;
             var priceP = document.createElement('p');
             priceP.appendChild(
-                document.createTextNode('Preço: $' + itemDetails[2])
+                document.createTextNode('Preço: $' + priceText)
             );
             detailDiv.appendChild(priceP);
-            var list = document.createElement("ul");
-            for (var i = 3; i < itemDetails.length; i++) {
-                var li = document.createElement("li");
-                var a = document.createElement("a");
-                a.setAttribute("href", itemDetails[i]);
-                a.appendChild(document.createTextNode(itemDetails[i]));
+            var list = document.createElement('ul');
+            var urlElements = responseDoc.getElementsByTagName('url');
+            for (var i = 0; i < urlElements.length; i++) {
+                var url = urlElements[i].firstChild.nodeValue;
+                var li = document.createElement('li');
+                var a = document.createElement('a');
+                a.setAttribute('href', url);
+                a.appendChild(document.createTextNode(url));
                 li.appendChild(a);
                 list.appendChild(li);
             }
