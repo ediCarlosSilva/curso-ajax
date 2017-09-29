@@ -42,8 +42,9 @@ function displayDetails() {
                 detailDiv.removeChild(detailDiv.childNodes[i - 1]);
             }
 
-            var jsonData = request.responseText;
-            alert(jsonData);
+            // var jsonData = request.responseText;
+            var itemDetails = eval('(' + request.responseText + ')');
+            console.log(itemDetails);
 
         }
     }
