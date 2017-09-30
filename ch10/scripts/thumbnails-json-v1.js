@@ -37,15 +37,37 @@ function displayDetails() {
         if (request.status == 200) {
             var detailDiv = document.getElementById("description");
 
+            // var jsonData = request.responseText;
+            var itemDetails = eval('(' + request.responseText + ')');
+            //console.log(itemDetails);
+
             // Remove existing item details (if any)
             for (var i = detailDiv.childNodes.length; i > 0; i--) {
                 detailDiv.removeChild(detailDiv.childNodes[i - 1]);
             }
 
-            // var jsonData = request.responseText;
-            var itemDetails = eval('(' + request.responseText + ')');
-            console.log(itemDetails);
-
+            // adicionar novos detalhes do item
+            var descriptionP = document.createElement('p');
+            descriptionP.appendChild(
+                document.createTextNode('Descrição: ' + itemDetails.description)
+            );
+            detailDiv.appendChild(descriptionP);
+            var priceP = document.createElement('p');
+            priceP.appendChild(
+                document.createTextNode('Preço: $' + itemDetails.price)
+            );
+            detailDiv.appendChild(priceP);
+            var list = document.createElement('ul');
+            for (var i = 0; i < itemDetails.urls.length; i++) {
+                var url = itemDetails.urls[i];
+                var li = document.createElement('li');
+                var a = document.createElement('a');
+                a.setAttribute('href', url);
+                a.appendChild(document.createTextNode(url));
+                li.appendChild(a);
+                list.appendChild(li);
+            }
+            detailDiv.appendChild(list);
         }
     }
 }
